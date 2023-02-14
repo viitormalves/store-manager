@@ -18,7 +18,13 @@ const allProducts = [
     name: 'Traje de encolhimento'
   };
 
+  const newProduct = {
+    id: 4,
+    name: 'Skateboard',
+  };
+
   module.exports = {
     allProducts,
     oneProduct,
+    newProduct,
   }
