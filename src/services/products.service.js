@@ -1,17 +1,17 @@
 const { productsModel } = require('../models');
 
-const findAll = async () => {
-    const products = await productsModel.findAll();
+const getAllProducts = async () => {
+    const products = await productsModel.getAllProducts();
     return { message: products };
 };
 
-const findById = async (productId) => {
-    const product = await productsModel.findById(productId);
+const getByProductId = async (productId) => {
+    const product = await productsModel.getByProductId(productId);
     if (!product) return { type: 'PRODUCT_NOT_FOUND', message: 'Product not found' };
     return { message: product };
 };
 
 module.exports = {
-    findAll,
-    findById,
+    getAllProducts,
+    getByProductId,
 };
