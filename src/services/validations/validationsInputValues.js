@@ -1,13 +1,15 @@
-const validateName = (productName) => {
-    const isNotValid = productName.length < 5;
-    if (isNotValid) {
-        return {
-            type: 'PRODUCT_NAME_INVALID',
-            message: '"name" length must be at least 5 characters long',
-        };
-    }
+const { productsModel } = require('../../models');
+
+const validateQuantityValue = (sale) => sale.every((s) => s.quantity >= 1);
+
+const validateProductIdExist = async (sale) => {
+    const ids = sale.map((s) => s.productId);
+    const allProducts = await productsModel.getAllProducts();
+    const allProductsId = allProducts.map((p) => p.id);
+    return ids.every((id) => allProductsId.includes(id));
 };
 
 module.exports = {
-    validateName,
+    validateQuantityValue,
+    validateProductIdExist,
 };

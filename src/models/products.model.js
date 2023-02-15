@@ -1,5 +1,4 @@
 const connection = require('./connection');
-// const camelize = require('camelize');
 
 const getAllProducts = async () => {
     const [result] = await connection.execute(
