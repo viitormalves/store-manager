@@ -72,7 +72,7 @@ describe('Testa o productsController', function () {
             expect(res.status).to.have.been.calledWith(400);
             expect(res.json).to.have.been.calledWithExactly({ message: '"name" is required' });
           });
-          it('Se não cria um novo produto ao enviar um nome vazio', async function () {
+          it('Se não cria um novo produto ao enviar um nome inválido', async function () {
             const req = {};
             const res = {};
             res.status = sinon.stub().returns(res);
