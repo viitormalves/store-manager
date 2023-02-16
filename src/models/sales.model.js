@@ -33,10 +33,6 @@ const getSaleById = async (id) => {
     return sale;
 };
 
-// const checkSale = async () => {
-//     const [sale] = 
-// }
-
 module.exports = {
     insertSale,
     getAllSales,

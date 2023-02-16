@@ -4,7 +4,8 @@ const sinon = require('sinon');
 const { productsModel, salesModel } = require('../../../src/models');
 const { salesServices } = require('../../../src/services');
 
-const { insertFailProductMock, insertFailQuantityMock, insertSaleMock,
+const { insertFailProductMock, insertFailQuantityMock,
+    insertSaleMock, allSalesMock, idSaleMock,
 } = require('../mocks/sales.mock');
 const { allProducts } = require('../mocks/products.mock');
 
@@ -36,6 +37,28 @@ describe('Testa o salesServices', function () {
         const result = await salesServices.insertSale(insertSaleMock);
 
         expect(result.message).to.deep.equal(messageMock);
+    });
+    describe('Testa a função de listar as vendas', function () {
+        it('Será validado o retorno de uma message com todas as vendas', async function () {
+            sinon.stub(salesModel, 'getAllSales').resolves(allSalesMock);
+            const result = await salesServices.getAllSales();
+            expect(result.message).to.deep.equal(allSalesMock);
+        });
+        it('Será validade o retorno de uma message',async function () {
+            const mockId = 2;
+
+            sinon.stub(salesModel, 'getSaleById').resolves(idSaleMock);
+            const result = await salesServices.getSaleById(mockId);
+            expect(result.message).to.deep.equal(idSaleMock);
+        });
+        it('Será validade de um error ao inserir um id inválido',async function () {
+            const mockId = 3;
+
+            sinon.stub(salesModel, 'getSaleById').resolves([]);
+            const result = await salesServices.getSaleById(mockId);
+            expect(result.message).to.be.equal('Sale not found');
+            expect(result.type).to.be.equal(404);
+        });
     });
 
     afterEach(function () {

@@ -9,7 +9,7 @@ const { salesServices } = require('../../../src/services');
 const { salesController } = require('../../../src/controllers');
 const { productsModel } = require('../../../src/models');
 
-const { insertSaleMock, insertFailProductMock } = require('../mocks/sales.mock');
+const { insertSaleMock, insertFailProductMock, allSalesMock, idSaleMock } = require('../mocks/sales.mock');
 const { allProducts } = require('../mocks/products.mock');
 
 describe('Testa o salesController', function () {
@@ -36,6 +36,40 @@ describe('Testa o salesController', function () {
         await salesController.insertSale(req, res);
 
         expect(res.status).to.have.been.calledWith(404);
+    });
+    describe('Testa a função de listar as vendas', function () {
+        it('Será validado o retorno do status 200 para listar todas as compras', async function () {
+            const req = {};
+            const res = {};
+            res.status = sinon.stub().returns(res);
+            res.json = sinon.stub().returns(res);
+            
+            sinon.stub(salesServices, 'getAllSales').resolves(allSalesMock);
+            await salesController.getAllSales(req, res);
+            expect(res.status).to.have.been.calledWith(200);
+        });
+        it('Será validado o retorno do status 200 listando uma venda pelo id', async function () {
+            const req = {};
+            const res = {};
+            res.status = sinon.stub().returns(res);
+            res.json = sinon.stub().returns(res);
+            req.params = { id: 2 };
+            
+            sinon.stub(salesServices, 'getSaleById').resolves(idSaleMock);
+            await salesController.getSaleById(req, res);
+            expect(res.status).to.have.been.calledWith(200);
+        });
+        it('Será validado o retorno do status 404 não listando uma venda pelo id', async function () {
+            const req = {};
+            const res = {};
+            res.status = sinon.stub().returns(res);
+            res.json = sinon.stub().returns(res);
+            req.params = { id: 3 };
+            
+            sinon.stub(salesServices, 'getSaleById').resolves({ type: 404 });
+            await salesController.getSaleById(req, res);
+            expect(res.status).to.have.been.calledWith(404);
+        });
     });
     afterEach(function () {
         sinon.restore();
