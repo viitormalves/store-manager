@@ -22,10 +22,11 @@ const createProduct = async (productName) => {
 };
 
 const updateProduct = async ({ name, id }) => { 
-    await connection.execute(
+    const data = await connection.execute(
       'UPDATE StoreManager.products SET name = ? WHERE id = ?',
       [name, id],
     );
+    return data;
   };
 
 module.exports = {

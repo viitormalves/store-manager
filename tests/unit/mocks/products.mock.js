@@ -23,8 +23,16 @@ const allProducts = [
     name: 'Skateboard',
   };
 
+  const newUpdate = [
+    {
+      affectedRows: 1,
+    },
+    undefined,
+  ];
+
   module.exports = {
     allProducts,
     oneProduct,
     newProduct,
+    newUpdate,
   }

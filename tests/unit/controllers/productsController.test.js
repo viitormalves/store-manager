@@ -60,30 +60,22 @@ describe('Testa o productsController', function () {
             expect(res.status).to.have.been.calledWith(201);
             expect(res.json).to.have.been.calledWithExactly(newProduct[0]);
           });
-          it('Se não cria um novo produto ao enviar um nome vazio', async function () {
+    });
+    describe('Testando a funcionalidade de atualizar produtos', async function () {
+        it('', async function () {
             const req = {};
             const res = {};
             res.status = sinon.stub().returns(res);
             res.json = sinon.stub().returns(res);
-            req.body = { name: '' };
-        
-            sinon.stub(productsService, 'createProduct').resolves(newProduct)
-            await productsController.createProduct(req, res);
-            expect(res.status).to.have.been.calledWith(400);
-            expect(res.json).to.have.been.calledWithExactly({ message: '"name" is required' });
-          });
-          it('Se não cria um novo produto ao enviar um nome inválido', async function () {
-            const req = {};
-            const res = {};
-            res.status = sinon.stub().returns(res);
-            res.json = sinon.stub().returns(res);
-            req.body = { name: 'aa' };
-        
-            sinon.stub(productsService, 'createProduct').resolves(newProduct)
-            await productsController.createProduct(req, res);
-            expect(res.status).to.have.been.calledWith(422);
-            expect(res.json).to.have.been.calledWithExactly({ message: '"name" length must be at least 5 characters long' });
-          });
+            req.params = { id: 1 };
+            req.body = { name: 'Martelo do Batman' };
+
+            const message = { id: 4, name: 'Martelo do Batman'};
+
+            sinon.stub(productsService, 'updateProduct').resolves(message);
+            await productsController.updateProduct(req, res);
+            expect(res.status).to.have.been.calledWith(200);
+        });
     });
     afterEach(function () {
         sinon.restore();
