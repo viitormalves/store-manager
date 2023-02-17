@@ -70,11 +70,27 @@ const idSaleMock = [
   }
 ];
 
+const newUpdateMock = [
+  {
+    affectedRows: 1,
+  },
+  undefined,
+];
+
+const deleteFailMock = [
+  {
+    affectedRows: 0,
+  },
+  undefined,
+];
+
 module.exports = {
     insertSaleMock,
     insertFailQuantityMock,
     insertFailProductMock,
     insertFailIdMock,
     allSalesMock,
-    idSaleMock
+    idSaleMock,
+    newUpdateMock,
+    deleteFailMock,
 };

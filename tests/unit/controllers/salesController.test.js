@@ -71,6 +71,30 @@ describe('Testa o salesController', function () {
             expect(res.status).to.have.been.calledWith(404);
         });
     });
+    describe('Testando a funcionalidade de deletar produtos', async function () {
+        it('Se ao deletar o produto o status retorna 204', async function () {
+            const req = {};
+            const res = {};
+            res.status = sinon.stub().returns(res);
+            res.end = sinon.stub().returns(res);
+            req.params = { id: 1 };
+
+            sinon.stub(salesServices, 'deleteSale').resolves({ message: '' });
+            await salesController.deleteSale(req, res);
+            expect(res.status).to.have.been.calledWith(204);
+        });
+        it('Se enviar um id inválido retorna o status 404', async function () {
+            const req = {};
+            const res = {};
+            res.status = sinon.stub().returns(res);
+            res.json = sinon.stub().returns(res);
+            req.params = { id: 1 };
+
+            sinon.stub(salesServices, 'deleteSale').resolves({ type: 404 });
+            await salesController.deleteSale(req, res);
+            expect(res.status).to.have.been.calledWith(404);
+        });
+    });
     afterEach(function () {
         sinon.restore();
     });

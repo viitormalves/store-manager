@@ -5,7 +5,7 @@ const { productsModel, salesModel } = require('../../../src/models');
 const { salesServices } = require('../../../src/services');
 
 const { insertFailProductMock, insertFailQuantityMock,
-    insertSaleMock, allSalesMock, idSaleMock,
+    insertSaleMock, allSalesMock, idSaleMock, deleteFailMock, newUpdateMock
 } = require('../mocks/sales.mock');
 const { allProducts } = require('../mocks/products.mock');
 
@@ -60,7 +60,19 @@ describe('Testa o salesServices', function () {
             expect(result.type).to.be.equal(404);
         });
     });
-
+    describe('Testando a funcionalidade de deletar uma venda', async function () {
+        it('Valida o retorno do erro 404 de uma venda não encontrada', async function () {
+            sinon.stub(salesModel, 'deleteSale').resolves(deleteFailMock);
+            const result = await salesServices.deleteSale(5);
+            expect(result.type).to.be.equal(404);
+            expect(result.message).to.be.equal('Sale not found');
+        });
+        it('Valida que deletou o produto retornando uma message vazia', async function () {
+            sinon.stub(salesModel, 'deleteSale').resolves(newUpdateMock);
+            const result = await salesServices.deleteSale(1);
+            expect(result.message).to.be.equal('');
+        });
+    });
     afterEach(function () {
         sinon.restore();
     });
