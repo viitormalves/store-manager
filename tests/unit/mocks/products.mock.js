@@ -30,9 +30,17 @@ const allProducts = [
     undefined,
   ];
 
+  const deleteFailMock = [
+    {
+      affectedRows: 0,
+    },
+    undefined,
+  ];
+
   module.exports = {
     allProducts,
     oneProduct,
     newProduct,
     newUpdate,
+    deleteFailMock,
   }

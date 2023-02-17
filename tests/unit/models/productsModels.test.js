@@ -34,6 +34,14 @@ describe('Testa o productsModel', function () {
             expect(data[0].affectedRows).to.be.equal(1);
         });
     });
+    describe('Testando a funcionalidade de deletar um produto', async function () {
+        it('Valida o retorno de uma linha alterada por deletar', async function () {
+            const id = 1;
+            sinon.stub(connection, 'execute').resolves(newUpdate);
+            const data = await productsModel.deleteProduct(id);
+            expect(data[0].affectedRows).to.be.equal(1);
+        });
+    });
     afterEach(function () {
         sinon.restore();
     });

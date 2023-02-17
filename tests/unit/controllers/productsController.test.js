@@ -62,7 +62,7 @@ describe('Testa o productsController', function () {
           });
     });
     describe('Testando a funcionalidade de atualizar produtos', async function () {
-        it('', async function () {
+        it('Se retorna status 200 após atualizar o nome de um produto', async function () {
             const req = {};
             const res = {};
             res.status = sinon.stub().returns(res);
@@ -75,6 +75,44 @@ describe('Testa o productsController', function () {
             sinon.stub(productsService, 'updateProduct').resolves(message);
             await productsController.updateProduct(req, res);
             expect(res.status).to.have.been.calledWith(200);
+        });
+        it('Se retorna status 404 após enviar um id inválido', async function () {
+            const req = {};
+            const res = {};
+            res.status = sinon.stub().returns(res);
+            res.json = sinon.stub().returns(res);
+            req.params = { id: 1 };
+            req.body = { name: 'Martelo do Batman' };
+
+            const data = { type: 404, message: 'Product not found'};
+
+            sinon.stub(productsService, 'updateProduct').resolves(data);
+            await productsController.updateProduct(req, res);
+            expect(res.status).to.have.been.calledWith(404);
+        });
+    });
+    describe('Testando a funcionalidade de deletar produtos', async function () {
+        it('Se ao deletar o produto o status retorna 204', async function () {
+            const req = {};
+            const res = {};
+            res.status = sinon.stub().returns(res);
+            res.end = sinon.stub().returns(res);
+            req.params = { id: 1 };
+
+            sinon.stub(productsService, 'deleteProduct').resolves({ message: '' });
+            await productsController.deleteProduct(req, res);
+            expect(res.status).to.have.been.calledWith(204);
+        });
+        it('Se enviar um id inválido retorna o status 404', async function () {
+            const req = {};
+            const res = {};
+            res.status = sinon.stub().returns(res);
+            res.json = sinon.stub().returns(res);
+            req.params = { id: 1 };
+
+            sinon.stub(productsService, 'deleteProduct').resolves({ type: 404 });
+            await productsController.deleteProduct(req, res);
+            expect(res.status).to.have.been.calledWith(404);
         });
     });
     afterEach(function () {

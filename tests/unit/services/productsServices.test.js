@@ -3,7 +3,7 @@ const sinon = require('sinon');
 
 const { productsService } = require('../../../src/services');
 const { productsModel } = require('../../../src/models');
-const { allProducts, oneProduct, newProduct, newUpdate } = require('../mocks/products.mock');
+const { allProducts, oneProduct, newProduct, newUpdate, deleteFailMock } = require('../mocks/products.mock');
 
 describe('Testa o productsService', function () {
     it('Lista todos os produtos', async function () {
@@ -44,6 +44,18 @@ describe('Testa o productsService', function () {
             sinon.stub(productsModel, 'getByProductId').resolves(undefined);
             const result = await productsService.updateProduct(newDate);
             expect(result.message).to.be.equal('Product not found');
+        });
+    });
+    describe('Testando a funcionalidade de deletar um produto', async function () {
+        it('Valida o retorno do erro 404 de produto não encontrado', async function () {
+            sinon.stub(productsModel, 'deleteProduct').resolves(deleteFailMock);
+            const result = await productsService.deleteProduct(5);
+            expect(result.message).to.be.equal('Product not found');
+        });
+        it('Valida que deletou o produto retornando uma message vazia', async function () {
+            sinon.stub(productsModel, 'deleteProduct').resolves(newUpdate);
+            const result = await productsService.deleteProduct(1);
+            expect(result.message).to.be.equal('');
         });
     });
     afterEach(function () {
