@@ -31,9 +31,28 @@ const deleteSale = async (idSale) => {
     return { message: '' };
 };
 
+const updateSale = async (newSale) => {
+    const { id, sale } = newSale;
+    if (!validateQuantityValue(sale)) {
+        return { type: 422, message: '"quantity" must be greater than or equal to 1' };
+    }
+    const isValid = await validateProductIdExist(sale);
+    if (!isValid) return { type: 404, message: 'Product not found' };
+    
+    const saleExist = await salesModel.getSaleById(id);
+    if (saleExist.length === 0) return { type: 404, message: 'Sale not found' };
+
+    await salesModel.updateSale(newSale);
+    return { message: {
+        saleId: id,
+        itemsUpdated: sale,
+    } };
+};
+
 module.exports = {
     insertSale,
     getAllSales,
     getSaleById,
     deleteSale,
+    updateSale,
 };
