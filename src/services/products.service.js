@@ -30,10 +30,20 @@ const deleteProduct = async (idProduct) => {
     return { message: '' };
 };
 
+const searchProducts = async (name) => {
+    if (!name) {
+        const allProducts = await productsModel.getAllProducts();
+        return { message: allProducts };
+    }
+    const products = await productsModel.searchProducts(name);
+    return { message: products };
+};
+
 module.exports = {
     getAllProducts,
     getByProductId,
     createProduct,
     updateProduct,
     deleteProduct,
+    searchProducts,
 };
